@@ -11,11 +11,11 @@ Net::DNS::Simple - The great new Net::DNS::Simple!
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
@@ -54,10 +54,14 @@ sub new {
 	my $class  = shift; #class name
 	my $domain = shift; #domain name constructor
 	my $qtype  = shift; #query type given on constructor
+	my $resolver = {@_}; #hash NameServer options
 	
 	my $self = bless {
 		_domain_name => $domain,
 		_qtype       => $qtype,
+
+		#resolver opts
+		_resolver =>  $resolver,
 
 		#header
 		_id      => undef, #query id
@@ -168,8 +172,18 @@ sub add_additional_rr {
 # Query DNS
 sub query {
 	my $self = shift;
-	my $d_resolver = Net::DNS::Resolver->new();
 
+	my $d_resolver;
+	my %config = %{$self->{_resolver}}; #hash reference
+
+	#testing config
+	if ( keys %config ) {
+		$d_resolver = Net::DNS::Resolver->new(%config);
+	} else {
+		$d_resolver = Net::DNS::Resolver->new();
+	}
+
+	#Send the DNS Request
 	my $d_handler = $d_resolver->send($self->{_domain_name}, $self->{_qtype});
 
 	#check if we have some answer
