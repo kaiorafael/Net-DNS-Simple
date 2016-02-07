@@ -257,7 +257,7 @@ Return integer specifying the number of entries in the question section.
 #return query count
 sub get_qdcount { my ($self) = @_; return $self->{_qdcount}; }
 
-=head2 get_qdcount()
+=head2 get_ancount()
 
 Return integer specifying the number of entries in the answer section.
 =cut
