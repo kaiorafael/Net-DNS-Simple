@@ -22,18 +22,11 @@ our $VERSION = '0.02';
 
 Quick summary of what the module does.
 
-Perhaps a little code snippet.
-
     use Net::DNS::Simple;
 
     my $foo = Net::DNS::Simple->new(<domain>, <qtype>);
     $foo->print_domain();
     ...
-
-=head1 EXPORTF
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
 
 =cut
 
@@ -47,6 +40,15 @@ header, answer, namser auth, and additional section.
     my $foo = Net::DNS::Simple->new("yahoo.com", "MX");
 
 Internally, it uses Net::DNS::Resolver->send
+
+
+    my %config = (
+        nameservers => ['8.8.8.8', '8.8.4.4'],
+        recurse => 0,
+        debug => 0
+     );
+
+     my $res = Net::DNS::Simple->new("kaiux.com", "A", %config);
 
 =cut
 
